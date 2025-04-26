@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "73e6c0e5e8e08b7d",
+        "id": "2b01cd1e2e5f2db8",
         "type": "tabs",
         "children": [
           {
-            "id": "3a4fb69007439f31",
+            "id": "33baa8fe863dec14",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "AVL Tree.md",
-                "mode": "preview",
+                "file": "Regex.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "AVL Tree"
+              "title": "Regex"
             }
           }
         ]
@@ -168,12 +168,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3a4fb69007439f31",
+  "active": "33baa8fe863dec14",
   "lastOpenFiles": [
-    "BST.md",
-    "week15.md",
-    "MAIN.md",
+    "QA.md",
+    "Regex.md",
     "AVL Tree.md",
+    "MAIN.md",
+    "week15.md",
+    "BST.md",
     "Heap.md",
     "AVL.md",
     "week14.md",

@@ -50,56 +50,37 @@ class BST {
   - until leaf node
 
 ```javascript
-insert(value) {
-  const newNode = new TreeNode(value);
-  if (this.root === null) {
+insert(value, c = this.root) {
+  let newNode = new node(value);
+
+  if (!this.root) {
     this.root = newNode;
+    return 'insert success';
+  }
+
+  if (value > c.value) {
+    return c.right ? this.insert(value, c.right) : (c.right = newNode, 'insert success');
+  } else if (value < c.value) {
+    return c.left ? this.insert(value, c.left) : (c.left = newNode, 'insert success');
   } else {
-    let currentNode = this.root;
-    while (true) {
-      if (value < currentNode.value) {
-        if (currentNode.left === null) {
-          currentNode.left = newNode;
-          break;
-        } else {
-          currentNode = currentNode.left;
-        }
-      } else {
-        if (currentNode.right === null) {
-          currentNode.right = newNode;
-          break;
-        } else {
-          currentNode = currentNode.right;
-        }
-      }
-    }
+    return 'duplicate elements not allowed';
   }
 }
-
 ```
+
 
 ## **Contains**
 
-- This operation checks if a value is present in the BST by recursively comparing it with each node, following the same rules as insertion.
 
 ```javascript
-// Check if a value exists in the BST
-contains(value) {
-  return this.containsNode(this.root, value);
-}
-
-containsNode(node, value) {
-  if (node === null) {
-    return false;
-  }
-  if (value < node.value) {
-    return this.containsNode(node.left, value);
-  } else if (value > node.value) {
-    return this.containsNode(node.right, value);
-  }
-  return true;
+contains(value, c = this.root) {
+  if (!c) return false;
+  if (c.value === value) return true;
+  if (value < c.value) return this.contains(value, c.left);
+  return this.contains(value, c.right);
 }
 ```
+
 
 ## **Delete**
 
@@ -108,44 +89,34 @@ containsNode(node, value) {
   2. **One child**: Remove the node and link its parent directly to its child.
   3. **Two children**: Replace the node with the smallest node in its right subtree (or largest in its left) and remove that node.
 
+
 ```javascript
-// Delete a value from the BST
-delete(value) {
-  this.root = this.deleteNode(this.root, value);
-}
-
-deleteNode(node, value) {
-  if (node === null) {
-    return null;
-  }
-
-  if (value < node.value) {
-    node.left = this.deleteNode(node.left, value);
-  } else if (value > node.value) {
-    node.right = this.deleteNode(node.right, value);
-  } else {
-    // Node to be deleted
-    if (node.left === null && node.right === null) {
-      return null;
-    } else if (node.left === null) {
-      return node.right;
-    } else if (node.right === null) {
-      return node.left;
+delete(value, c = this.root, parent = null) {
+  if (!c) return 'value doesnt exist in this bst';
+  if (value > c.value) return this.delete(value, c.right, c);
+  else if (value < c.value) return this.delete(value, c.left, c);
+  else {
+    if (parent === null) {
+      this.root = child;
     }
-
-    // Node with two children: Get the inorder successor
-    let minNode = this.findMinNode(node.right);
-    node.value = minNode.value;
-    node.right = this.deleteNode(node.right, minNode.value);
+    else if (c.left && c.right) {
+      let minc = c.right;
+      while (minc.left) {
+        minc = minc.left;
+      }
+      if (minc.right) {
+        minc.value = minc.right.value;
+        minc.right = null;
+      } else {
+        this.delete(minc.value, c.right, c);
+      }
+      c.value = minc.value;
+    } else {
+      let child = c.left || c.right;
+      parent.left === c ? parent.left = child : parent.right = child;  
+    }
+    return 'delete success';
   }
-  return node;
-}
-
-findMinNode(node) {
-  while (node.left !== null) {
-    node = node.left;
-  }
-  return node;
 }
 ```
 
@@ -154,18 +125,15 @@ findMinNode(node) {
 - **Inorder traversal** visits nodes in the order: **Left → Node → Right**.
 - This traversal produces the nodes in **sorted** order in a BST.
 
+
 ```javascript
-// Inorder traversal (Left → Node → Right)
-inorderTraversal(node = this.root) {
-  if (node !== null) {
-    this.inorderTraversal(node.left);
-    console.log(node.value);
-    this.inorderTraversal(node.right);
-  }
+inorderPrint(c = this.root) {
+  if (!c) return; // Early exit if current node is null
+  this.inorderPrint(c.left); // Visit left subtree
+  console.log(c.value); // Visit the current node
+  this.inorderPrint(c.right); // Visit right subtree
 }
 ```
-
-
 
 
 ## **Find Closest Value**
